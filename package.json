@@ -1,0 +1,34 @@
+{
+  "name": "webpack-learn",
+  "version": "1.0.0",
+  "description": "Learn webpack",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkKeksik/webpack-learn.git"
+  },
+  "keywords": [
+    "js",
+    "javascrript",
+    "webpack"
+  ],
+  "author": "DarkKeksik <frilans.er@mail.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarkKeksik/webpack-learn/issues"
+  },
+  "homepage": "https://github.com/DarkKeksik/webpack-learn#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^4.2.2",
+    "html-webpack-plugin": "^4.4.1",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
