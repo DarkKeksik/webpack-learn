@@ -1,8 +1,14 @@
+@import "~normalize.css";
 @import "./fonts.css";
+
 * { margin: 0; padding: 0; }
 body { font-family: "Roboto", sans-serif }
 
 h1 { text-align: center; }
+.test {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+}
 
 .logo {
     background-image: url("../assets/logo.svg");

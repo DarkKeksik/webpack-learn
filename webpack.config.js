@@ -13,6 +13,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // обрабатываются справа -> налево
 // file-loader - под обработку картинок и других типов файлов
 
+// resolve -> extensions ( Позволяет не указывать расширения файлов )
+// resolve -> alias ( Шаблоны для путей )
+
 module.exports = {
     context: path.resolve(__dirname, "src"),
     mode: "development",
@@ -24,12 +27,13 @@ module.exports = {
         filename: "[name].[contenthash].js",
         path: path.resolve(__dirname, "dist")
     },
-    plugins: [
-        new HTMLWebpackPlugin({
-            template: "./index.html"
-        }),
-        new CleanWebpackPlugin()
-    ],
+    resolve: {
+        extensions: [".js", ".json"],
+        alias: {
+            "@deepFolder": path.resolve(__dirname, "src/deep/deep/deepFolder"),
+            "@": path.resolve(__dirname, "src")
+        }
+    },
     module: {
         rules: [
             {
@@ -45,5 +49,11 @@ module.exports = {
                 use: ["file-loader"]
             }
         ]
-    }
+    },
+    plugins: [
+        new HTMLWebpackPlugin({
+            template: "./index.html"
+        }),
+        new CleanWebpackPlugin()
+    ]
 }
