@@ -2,7 +2,7 @@
   "name": "webpack-learn",
   "version": "1.0.0",
   "description": "Learn webpack",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
