@@ -11,6 +11,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 // Loaders - Позволяют работать с файлами отличающиемся от js
 // обрабатываются справа -> налево
+// file-loader - под обработку картинок
 
 module.exports = {
     context: path.resolve(__dirname, "src"),
@@ -34,6 +35,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: ["file-loader"]
             }
         ]
     }
