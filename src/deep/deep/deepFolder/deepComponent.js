@@ -1,1 +1,1 @@
-alert("I deep components, hello!");
+console.log("I deep components, hello!");

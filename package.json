@@ -33,6 +33,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "jquery": "^3.5.1",
     "normalize.css": "^8.0.1"
   }
 }

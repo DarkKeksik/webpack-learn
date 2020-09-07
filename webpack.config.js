@@ -16,6 +16,10 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // resolve -> extensions ( Позволяет не указывать расширения файлов )
 // resolve -> alias ( Шаблоны для путей )
 
+// optimization - настройка оптимизации
+// splitChunks - Позволяет вынести код подключаемый
+// в нескольких файлах, в 1 и использовать его
+
 module.exports = {
     context: path.resolve(__dirname, "src"),
     mode: "development",
@@ -49,6 +53,11 @@ module.exports = {
                 use: ["file-loader"]
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "all"
+        }
     },
     plugins: [
         new HTMLWebpackPlugin({
