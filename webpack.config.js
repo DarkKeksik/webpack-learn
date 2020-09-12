@@ -3,9 +3,29 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
 
 const isDev = process.env.NODE_ENV === "development";
-console.log(`isDev = ${ isDev }`);
+const isProd = !isDev;
+
+// При продакшен сборке добавляем оптимизацию проэкта
+const optimization = () => {
+    const config = {
+        splitChunks: {
+            chunks: "all"
+        }
+    };
+
+    if (isProd) {
+        config.minimizer = [
+            new OptimizeCssAssetsWebpackPlugin(),
+            new TerserWebpackPlugin()
+        ]
+    }
+
+    return config;
+}
 
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
@@ -76,7 +96,10 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./index.html"
+            template: "./index.html",
+            minify: {
+                collapseWhitespace: isProd
+            }
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
@@ -92,9 +115,5 @@ module.exports = {
         port: 8080,
         hot: isDev
     },
-    optimization: {
-        splitChunks: {
-            chunks: "all"
-        }
-    }
+    optimization: optimization()
 }
