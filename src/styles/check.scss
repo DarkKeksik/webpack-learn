@@ -1,10 +1,10 @@
-@color-1: blueviolet;
+$color-1: brown;
 
-.less {
+.scss {
   h2 {
     font-size: 1.7rem;
     text-align: center;
     margin: 0.67em 0;
-    color: @color-1;
+    color: $color-1;
   }
 }
