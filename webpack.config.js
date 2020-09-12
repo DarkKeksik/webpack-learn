@@ -28,7 +28,7 @@ const optimization = () => {
 }
 
 // Функция, которая добавляет hash при продакшен сборке
-const filename = ext => isDev ? `[name].${ext}` : `[name][hash].${ext}`;
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`;
 
 // DRY
 const cssLoaders = extra => {
