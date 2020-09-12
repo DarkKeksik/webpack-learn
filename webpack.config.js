@@ -4,6 +4,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const isDev = process.env.NODE_ENV === "development";
+console.log(`isDev = ${ isDev }`);
+
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
 
@@ -25,6 +28,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // CopyWebpackPlugin - под файлы, которые должны быть в проекте принудительно (например favicon)
 
 // MiniCssExtractPlugin - Для того чтобы стили были в отдельном файле, а не в <head />
+
+// isDev - Проверяет системную переменную в каком mode был запущен webpack
+// и в зависимости от этого задает параметры для конфига (mini-css-extract-plugin и devServer)
+
+// cross-env дает возможность кроссплатформенно задавать сис. переменные
 
 module.exports = {
     context: path.resolve(__dirname, "src"),
@@ -48,7 +56,13 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader"]
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: isDev,
+                        reloadAll: true
+                    }
+                }, "css-loader"]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -75,7 +89,8 @@ module.exports = {
         })
     ],
     devServer: {
-        port: 8080
+        port: 8080,
+        hot: isDev
     },
     optimization: {
         splitChunks: {
