@@ -30,6 +30,25 @@ const optimization = () => {
 // Функция, которая добавляет hash при продакшен сборке
 const filename = ext => isDev ? `[name].${ext}` : `[name][hash].${ext}`;
 
+// DRY
+const cssLoaders = extra => {
+    const loaders = [
+        {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+                hmr: isDev,
+                reloadAll: true
+            }
+        },
+        "css-loader"
+    ]
+
+    if ( extra ) {
+        loaders.push( extra );
+    }
+
+    return loaders;
+}
 
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
@@ -80,39 +99,15 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: isDev,
-                        reloadAll: true
-                    }
-                }, "css-loader"]
+                use: cssLoaders()
             },
             {
                 test: /\.less$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: isDev,
-                        reloadAll: true
-                    }
-                },
-                "css-loader",
-                "less-loader"
-                ]
+                use: cssLoaders("less-loader")
             },
             {
                 test: /\.s[ac]ss$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: isDev,
-                        reloadAll: true
-                    }
-                },
-                    "css-loader",
-                    "sass-loader"
-                ]
+                use: cssLoaders("sass-loader")
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
