@@ -27,6 +27,9 @@ const optimization = () => {
     return config;
 }
 
+// Функция, которая добавляет hash при продакшен сборке
+const filename = ext => isDev ? `[name].${ext}` : `[name][hash].${ext}`;
+
 
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
@@ -63,7 +66,7 @@ module.exports = {
         analytics: "./analytics.js"
     },
     output: {
-        filename: "[name].[hash].js",
+        filename: filename("js"),
         path: path.resolve(__dirname, "dist")
     },
     resolve: {
@@ -122,7 +125,7 @@ module.exports = {
             ]
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[hash].css"
+            filename: filename("css")
         })
     ],
     devServer: {
