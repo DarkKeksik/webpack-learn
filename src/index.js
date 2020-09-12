@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 
 import "@/styles/styles.css";
+import "@/styles/check.less";
 import logo from "@/assets/logo.svg";
 import testJson from "@/checkJson.json";
 import deepComponents from "@deepFolder/deepComponent";

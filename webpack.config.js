@@ -27,6 +27,7 @@ const optimization = () => {
     return config;
 }
 
+
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
 
@@ -62,7 +63,7 @@ module.exports = {
         analytics: "./analytics.js"
     },
     output: {
-        filename: "[name].[contenthash].js",
+        filename: "[name].[hash].js",
         path: path.resolve(__dirname, "dist")
     },
     resolve: {
@@ -83,6 +84,19 @@ module.exports = {
                         reloadAll: true
                     }
                 }, "css-loader"]
+            },
+            {
+                test: /\.less$/,
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: isDev,
+                        reloadAll: true
+                    }
+                },
+                "css-loader",
+                "less-loader"
+                ]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -108,7 +122,7 @@ module.exports = {
             ]
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[contenthash].css"
+            filename: "[name].[hash].css"
         })
     ],
     devServer: {
