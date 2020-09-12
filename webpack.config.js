@@ -2,7 +2,7 @@ const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
@@ -48,7 +48,7 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -60,11 +60,6 @@ module.exports = {
             }
         ]
     },
-    optimization: {
-        splitChunks: {
-            chunks: "all"
-        }
-    },
     plugins: [
         new HTMLWebpackPlugin({
             template: "./index.html"
@@ -74,9 +69,17 @@ module.exports = {
             patterns: [
                 { from: path.resolve(__dirname, "src/favicon.ico"), to: path.resolve(__dirname, "dist") }
             ]
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash].css"
         })
     ],
     devServer: {
         port: 8080
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "all"
+        }
     }
 }
