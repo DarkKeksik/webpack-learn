@@ -2,19 +2,26 @@
 @import "./fonts.css";
 
 * { margin: 0; padding: 0; }
+
 body { font-family: "Roboto", sans-serif }
 
 h1 { text-align: center; }
+
 .test {
     display: grid;
     grid-template-columns: repeat(2, minmax(100px, 1fr));
+}
+
+.wrap {
+    max-width: 1024px;
+    margin: 0 auto;
 }
 
 .logo {
     background-image: url("../assets/logo.svg");
     background-size: cover;
     background-position: center center;
-    height: 100px;
-    width: 100px;
-    margin: 0 auto;
+    height: 150px;
+    width: 150px;
+    margin: 1rem auto 1rem;
 }

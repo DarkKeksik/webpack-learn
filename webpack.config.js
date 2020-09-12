@@ -1,6 +1,8 @@
 const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+
 
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
@@ -19,6 +21,10 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // optimization - настройка оптимизации
 // splitChunks - Позволяет вынести код подключаемый
 // в нескольких файлах, в 1 и использовать его
+
+// CopyWebpackPlugin - под файлы, которые должны быть в проекте принудительно (например favicon)
+
+// MiniCssExtractPlugin - Для того чтобы стили были в отдельном файле, а не в <head />
 
 module.exports = {
     context: path.resolve(__dirname, "src"),
@@ -49,7 +55,7 @@ module.exports = {
                 use: ["file-loader"]
             },
             {
-                test: /\.(ttf|woff|woff2|eot)/,
+                test: /\.(ttf|woff|woff2|eot)$/,
                 use: ["file-loader"]
             }
         ]
@@ -63,6 +69,14 @@ module.exports = {
         new HTMLWebpackPlugin({
             template: "./index.html"
         }),
-        new CleanWebpackPlugin()
-    ]
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: path.resolve(__dirname, "src/favicon.ico"), to: path.resolve(__dirname, "dist") }
+            ]
+        })
+    ],
+    devServer: {
+        port: 8080
+    }
 }
