@@ -25,3 +25,13 @@ h1 { text-align: center; }
     width: 150px;
     margin: 1rem auto 1rem;
 }
+
+.reactApp {
+    background: #f3f3f3;
+    padding: 1.5rem 1rem;
+    font-size: 1.5rem;
+    color: #be714c;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 1px;
+}

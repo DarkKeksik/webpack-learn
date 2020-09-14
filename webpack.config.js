@@ -50,6 +50,22 @@ const cssLoaders = extra => {
     return loaders;
 }
 
+// DRY
+const babelLoader = preset => {
+    let config = {
+        loader: "babel-loader",
+        options: {
+            presets: [ "@babel/preset-env" ]
+        }
+    }
+
+    if ( preset ) {
+        config.options.presets.push( preset );
+    }
+
+    return config;
+}
+
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
 
@@ -81,7 +97,7 @@ module.exports = {
     context: path.resolve(__dirname, "src"),
     mode: "development",
     entry: {
-        main: ["@babel/polyfill", "./index.js"],
+        main: ["@babel/polyfill", "./index.jsx"],
         analytics: "./analytics.js"
     },
     output: {
@@ -120,25 +136,17 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [ "@babel/preset-env" ]
-                    }
-                }
+                use: babelLoader()
             },
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-typescript"
-                        ]
-                    }
-                }
+                use: babelLoader("@babel/preset-typescript")
+            },
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                use: babelLoader("@babel/preset-react")
             }
         ]
     },
