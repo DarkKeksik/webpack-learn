@@ -5,6 +5,6 @@ const counter = () => {
 }
 let countOnBody = counter();
 
-$( document ).on("click", function() {
-    console.log( `Аналитика ${countOnBody()}` );
+$( document ).on("click", function () {
+    console.log(`Analytics ${ countOnBody() }`);
 });
