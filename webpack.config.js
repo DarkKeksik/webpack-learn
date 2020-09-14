@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
@@ -66,6 +67,32 @@ const babelLoader = preset => {
     return config;
 }
 
+const plugins = () => {
+    const base = [
+        new HTMLWebpackPlugin({
+            template: "./index.html",
+            minify: {
+                collapseWhitespace: isProd
+            }
+        }),
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: path.resolve(__dirname, "src/favicon.ico"), to: path.resolve(__dirname, "dist") }
+            ]
+        }),
+        new MiniCssExtractPlugin({
+            filename: filename("css")
+        })
+    ];
+
+    if (isProd) {
+        base.push( new BundleAnalyzerPlugin() );
+    }
+
+    return base;
+}
+
 // [name] - имя чанков из entry
 // [contenthash] - хеш от контента файла (решить проблему с кешированием)
 
@@ -93,6 +120,7 @@ const babelLoader = preset => {
 
 // cross-env дает возможность кроссплатформенно задавать сис. переменные
 
+// devtool - поле позволяющее добавить просмотр исходников проекта в консоли разработчика
 module.exports = {
     context: path.resolve(__dirname, "src"),
     mode: "development",
@@ -150,26 +178,11 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new HTMLWebpackPlugin({
-            template: "./index.html",
-            minify: {
-                collapseWhitespace: isProd
-            }
-        }),
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, "src/favicon.ico"), to: path.resolve(__dirname, "dist") }
-            ]
-        }),
-        new MiniCssExtractPlugin({
-            filename: filename("css")
-        })
-    ],
+    plugins: plugins(),
     devServer: {
         port: 8080,
         hot: isDev
     },
-    optimization: optimization()
+    optimization: optimization(),
+    devtool: isDev ? "source-map" : ""
 }
