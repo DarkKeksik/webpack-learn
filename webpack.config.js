@@ -10,7 +10,7 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
 
-// При продакшен сборке добавляем оптимизацию проэкта
+// При продакшен сборке добавляем оптимизацию проекта
 const optimization = () => {
     const config = {
         splitChunks: {
